@@ -1,5 +1,6 @@
 const WebSocket = require('ws');
 const Message = require('./models/Message.js');
+const { MudError } = require('./errors');
 
 class WebSocketServer {
   constructor() {
@@ -38,6 +39,10 @@ class WebSocketServer {
 
   handleMessage(ws, message) {
     console.log('handle message');
+
+    if (!(message instanceof Message)) {
+      throw new MudError('invalid message');
+    }
 
     // Parse the message and handle game logic
     const { data } = Message.parse(message);
