@@ -41,6 +41,9 @@ class WebSocketServer {
     // Parse the message and handle game logic
     const data = JSON.parse(message);
     console.log({ data });
+
+    this.sendToClient(ws, '{ "msg": "well hello there stranger ;p" }');
+
     // Delegate to World for processing commands, etc.
     if (this.world) {
       this.world.processCommand(ws, data);
