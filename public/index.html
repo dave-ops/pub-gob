@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>node-mud</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link href="styles.css" rel="stylesheet" media="all" />
+    </head>
+    <body>
+        <div id="app" class="app-container">
+            <div id="terminal" class="terminal-container terminal-window">
+                <div class="flex-container">text</div>
+            </div>
+            <div id="command-input" class="terminal-container">
+                <div class="flex-container">
+                    <form id="console" autocomplete="off">
+                        <input class="user-input" id="cmd" type="input" value="" placeholder="Enter a character name" />
+                    </form>
+                </div>
+                <div>
+                    <ul id="prev-cmd-list"></ul>
+                </div>
+            </div>
+        </div>
+        <script src="tkd.js"></script>
+    </body>
+</html>
