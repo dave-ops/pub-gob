@@ -11,15 +11,16 @@ class WebSocketServer {
       console.log('server already attached')
       return;
     }
-    this.wss = new WebSocket.Server({ server });
-    this.wss.on('connection', () => {
-      console.log('on connection');
+    console.log({
+      server
     });
+
+    this.wss = new WebSocket.Server({ server });
+    this.wss.on('connection', this.handleConnection.bind(this));
   }
 
   handleConnection(ws) {
     console.log('incoming connection');
-    console.log({ ws })
     ws.on('message', (message) => {
       console.log('on message');
       return this.handleMessage(ws, message);
@@ -30,11 +31,6 @@ class WebSocketServer {
     });
     ws.on('pong', () => {
       console.log('on pong');
-      return this.handlePong(ws);
-    });
-    ws.on('error', (a, b, c) => {
-      console.error('on error');
-      console.log({a, b, c});
       return this.handlePong(ws);
     });
   }
