@@ -12,6 +12,7 @@ class StaticWebServer {
   }
 
   createServer() {
+    console.log({ app: this.app });
     return http.createServer(this.app);
   }
 

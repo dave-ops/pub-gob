@@ -13,10 +13,11 @@ class MUD {
     }
 
     listen = async (port) => {
+        console.log('creating static server');
         const server = this.staticServer.createServer();
+        console.log('attaching socket server');
         this.wsServer.attachToServer(server);
-    
-        // initialize the mud!
+        console.log('initialize the mud!');
         this.world.initialize(this.wsServer);
         return server.listen(port, () => {
             console.log(`server started on ${port}`);
