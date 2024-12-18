@@ -2,7 +2,7 @@ const StaticFileServer = require('./StaticFileServer');
 const WebSocketServer = require('./WebSocketServer');
 const World = require('./World');
 
-class RockMUD {
+class MUD {
     constructor(server, config, callback) {
         // Constructor logic here
         this.server = server;
@@ -27,4 +27,4 @@ class RockMUD {
     }
 }
 
-module.exports = RockMUD;
+module.exports = MUD;
