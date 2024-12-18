@@ -37,8 +37,10 @@ class WebSocketServer {
 
   handleMessage(ws, message) {
     console.log('handle message');
+
     // Parse the message and handle game logic
     const data = JSON.parse(message);
+    console.log({ data });
     // Delegate to World for processing commands, etc.
     if (this.world) {
       this.world.processCommand(ws, data);
