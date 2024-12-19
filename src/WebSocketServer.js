@@ -1,16 +1,33 @@
 'use strict'
 
+const fs = require('fs');
 const path = require('path');
 const WebSocket = require('ws');
 const Message = require('./models/Message.js');
 const { MudError } = require('./errors');
 
+const PLAYER_PATH = './players';
+
 const AuthFlow = {
-  None: { id: 0, value: 0, message: 'Fare thee well!' },
-  Connected: { id: 1, value: 1, message: 'Enter character name:' },
-  CharacterCreation: { id: 2, value: 2, message: 'Select Race:' },
-  Login: { id: 3, value: 3, message: 'Enter password:' },
-  InGame: { id: 4, value: 4, message: 'Welcome' },
+  None: { id: 0, value: 0, message: 'Fare thee well!', connected: false },
+  Connected: { id: 1, value: 1, message: 'Enter character name:', connected: true },
+  CharacterCreation: { id: 2, value: 2, message: 'Select Race:', connected: true },
+  Login: { id: 3, value: 3, message: 'Enter password:', connected: true },
+  InGame: { id: 4, value: 4, message: 'Welcome', connected: true },
+};
+
+const characterExists = async (character_name) => {
+  console.log(`checking if character exists: ${character_name}`);
+  const playerFilePath = path.join(PLAYER_PATH, `${character_name}.json`);
+  console.log({ playerFilePath });
+  try {
+    await fs.access(playerFilePath);
+    console.log({ playerExists: true });
+    return true;
+  } catch (error) {
+    console.log({ playerExists: false });
+    return false;
+  }
 };
 
 class WebSocketServer {
@@ -35,16 +52,12 @@ class WebSocketServer {
 
   handleConnection(ws) {
     console.log('incoming connection');
+    if (!this.auth_state.connected) {
+      this.auth_state = AuthFlow.Connected;
+    }
 
     ws.on('message', async (message) => {
       console.log('on message');
-      const cmd_msg = `${message}`.trim();
-
-      if (this.auth_state === AUTH_UNKNOWN) {
-          const result = await this.handleLogin(ws, cmd_msg);
-          return result;
-      }
-
       this.handleMessage(ws, message);
     });
 
@@ -102,9 +115,16 @@ class WebSocketServer {
     }
   }
 
-  handleMessage(ws, message) {
+  handleMessage = async (ws, message) => {
     console.log(`handle message ${message}`);
-    const cmd = `${message}`;
+    const cmd_msg = `${message}`.trim().toLowerCase();
+    const character_name = this.auth_state.id === AuthFlow.Connected.id ? cmd_msg : null;
+    const exists = await characterExists(character_name);
+    if (!exists) {
+      console.log('character does not exist, create it');
+    }
+
+    //const result = await this.handleLogin(ws, this.auth_state.message);
 
     // Parse the message and handle game logic
     // Delegate to World for processing commands, etc.
