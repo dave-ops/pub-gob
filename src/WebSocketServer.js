@@ -8,24 +8,6 @@ const { MudError } = require('./errors');
 
 const PLAYER_PATH = './players';
 
-const AuthFlow = {
-    None: { id: 0, value: 0, message: 'Fare thee well!', connected: false },
-    Connected: { id: 1, value: 1, message: 'Enter character name:', connected: true },
-    CharacterCreation: { id: 2, value: 2, message: 'Select Race:', connected: true },
-    Login: { id: 3, value: 3, message: 'Enter password:', connected: true },
-    InGame: { id: 4, value: 4, message: 'Welcome', connected: true },
-};
-
-const characterExists = async (character_name) => {
-    const playerFilePath = path.join(PLAYER_PATH, `${character_name}.json`);
-    try {
-        await fs.access(playerFilePath);
-        return true;
-    } catch (error) {
-        return false;
-    }
-};
-
 class WebSocketServer {
     constructor() {
         this.wss = null;
@@ -66,16 +48,11 @@ class WebSocketServer {
             console.log('on pong');
             return this.handlePong(ws);
         });
-
-        if (!this.authenticated) {
-            console.log('not authenticated');
-            ws.send('hmmmmmmm');
-        }
     }
 
     handleLogin = async (ws, name) => {
         try {
-            const playerFilePath = path.join(this.playersPath, `${name}.json`);
+            const playerFilePath = path.join(PLAYER_PATH, `${name}.json`);
             const playerExists = await fs
                 .access(playerFilePath)
                 .then(() => true)
@@ -114,23 +91,81 @@ class WebSocketServer {
         }
     };
 
+    // handleMessage = async (ws, message) => {
+    //     console.log(`handle message ${message}`);
+    //     const cmd_msg = `${message}`.trim().toLowerCase();
+
+    //     const character_name = this.auth_state.id === AuthFlow.Connected.id ? cmd_msg : null;
+    //     const exists = await characterExists(character_name);
+    //     if (!exists) {
+    //         console.log('character does not exist, create it');
+    //     }
+
+    //     //const result = await this.handleLogin(ws, this.auth_state.message);
+
+    //     // Parse the message and handle game logic
+    //     // Delegate to World for processing commands, etc.
+    //     if (this.world) {
+    //         this.world.processCommand(ws, cmd);
+    //     }
+    // };
+
     handleMessage = async (ws, message) => {
-        console.log(`handle message ${message}`);
-        const cmd_msg = `${message}`.trim().toLowerCase();
-        const character_name = this.auth_state.id === AuthFlow.Connected.id ? cmd_msg : null;
-        const exists = await characterExists(character_name);
-        if (!exists) {
-            console.log('character does not exist, create it');
-        }
-
-        //const result = await this.handleLogin(ws, this.auth_state.message);
-
-        // Parse the message and handle game logic
-        // Delegate to World for processing commands, etc.
-        if (this.world) {
-            this.world.processCommand(ws, cmd);
-        }
-    };
+      console.log(`handle message ${message}`);
+      const cmd_msg = `${message}`.trim().toLowerCase();
+      
+      // Determine the current state and act accordingly
+      switch (this.auth_state.id) {
+        case AuthFlow.Connected.id:
+          await this.handleConnectedState(ws, cmd_msg);
+          break;
+        case AuthFlow.CharacterCreation.id:
+          // Handle character creation logic if needed
+          break;
+        case AuthFlow.Login.id:
+          // Handle login logic if needed
+          break;
+        case AuthFlow.InGame.id:
+          // Handle in-game commands
+          if (this.world) {
+            this.world.processCommand(ws, cmd_msg);
+          }
+          break;
+        default:
+          ws.send('Invalid state.');
+      }
+    }
+  
+    handleConnectedState = async (ws, cmd_msg) => {
+      const characterExists = await this.checkCharacterExists(cmd_msg);
+      if (!characterExists) {
+        console.log('Character does not exist, proceed with character creation or login prompt.');
+        // Here, decide whether to create a new character or prompt for login
+        // For simplicity, let's just send a message to the client to create a character or login
+        ws.send(JSON.stringify({ type: 'info', message: 'Character does not exist. Please choose to create a new character or login with an existing one.' }));
+      } else {
+        // If the character exists, proceed with login or directly into the game if no password is required
+        // Assuming you might have a method to handle login or transition to in-game state
+        await this.handleExistingCharacterLogin(ws, cmd_msg);
+      }
+    }
+  
+    checkCharacterExists = async (character_name) => {
+      const playerFilePath = path.join(PLAYER_PATH, `${character_name}.json`);
+      try {
+        await fs.access(playerFilePath);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+  
+    handleExistingCharacterLogin = async (ws, name) => {
+      // Here you would handle the login process if necessary
+      // For simplicity, let's assume login isn't required for now and transition directly to in-game
+      this.auth_state = AuthFlow.InGame;
+      ws.send(JSON.stringify({ type: 'game', message: 'Welcome back!' }));
+    }
 
     handleClose(ws) {
         console.log('handle close');
