@@ -1,12 +1,22 @@
+'use strict'
+
+const path = require('path');
 const WebSocket = require('ws');
 const Message = require('./models/Message.js');
 const { MudError } = require('./errors');
 
+const AuthFlow = {
+  None: { id: 0, value: 0, message: 'Fare thee well!' },
+  Connected: { id: 1, value: 1, message: 'Enter character name:' },
+  CharacterCreation: { id: 2, value: 2, message: 'Select Race:' },
+  Login: { id: 3, value: 3, message: 'Enter password:' },
+  InGame: { id: 4, value: 4, message: 'Welcome' },
+};
+
 class WebSocketServer {
   constructor() {
     this.wss = null;
-    this.authenticated = false;
-    this.welcome_msg = 'Enter character name:';
+    this.auth_state = AuthFlow.None;
   }
 
   attachToServer(server) {
@@ -30,7 +40,7 @@ class WebSocketServer {
       console.log('on message');
       const cmd_msg = `${message}`.trim();
 
-      if (!this.authenticated) {
+      if (this.auth_state === AUTH_UNKNOWN) {
           const result = await this.handleLogin(ws, cmd_msg);
           return result;
       }
