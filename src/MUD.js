@@ -15,6 +15,10 @@ class MUD {
     }
 
     close = () => {
+        if (!server) {
+            return;
+        }
+        
         this.server.close(() => {
             process.exit(0);
         });
