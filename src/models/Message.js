@@ -4,7 +4,7 @@
 
 class Message {
     constructor({ data = {} }) {
-        this.data = JSON.parse(data);
+        this.data = data;
     }
 
     toJson = () => JSON.parse(this);
