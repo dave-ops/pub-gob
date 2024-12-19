@@ -16,9 +16,10 @@ class MUD {
 
     close = () => {
         if (!server) {
+            console.log('the server is not defined ergo can\'t close it.');
             return;
         }
-        
+
         this.server.close(() => {
             process.exit(0);
         });
