@@ -5,6 +5,8 @@ const { MudError } = require('./errors');
 class WebSocketServer {
   constructor() {
     this.wss = null;
+    this.authenticated = false;
+    this.welcome_msg = 'Enter character name:';
   }
 
   attachToServer(server) {
@@ -23,30 +25,33 @@ class WebSocketServer {
 
   handleConnection(ws) {
     console.log('incoming connection');
-    ws.on('message', (message) => {
+
+    ws.on('message', async (message) => {
       console.log('on message');
-      return this.handleMessage(ws, message);
+      const cmd_msg = `${message}`.trim();
+
+      if (!this.authenticated) {
+          const result = await this.handleLogin(ws, cmd_msg);
+          return result;
+      }
+
+      this.handleMessage(ws, message);
     });
+
     ws.on('close', () => {
       console.log('on close');
       return this.handleClose(ws)
     });
+
     ws.on('pong', () => {
       console.log('on pong');
       return this.handlePong(ws);
     });
-    ws.on('message', async (message) => {
-      console.log('on message');
-      const character_name = `${message}`;
 
-      const playerExists = false;
-      if (playerExists) {
-        await this.handleLogin(ws, character_name);
-      } else {
-        // Handle other message types
-        this.handleMessage(ws, message);
-      }
-    });
+    if (!this.authenticated) {
+      console.log('not authenticated');
+      ws.send('hmmmmmmm');
+    }
   }
 
   handleLogin = async (ws, name) => {
