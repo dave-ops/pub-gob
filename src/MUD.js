@@ -1,9 +1,11 @@
+'use strict'
+
 const StaticWebServer = require('./StaticWebServer');
 const WebSocketServer = require('./WebSocketServer');
 const World = require('./World');
 
 class MUD {
-    constructor(server, config, callback) {
+    constructor(server, config) {
         // Constructor logic here
         this.server = server;
         this.config = config;
@@ -12,16 +14,22 @@ class MUD {
         this.world = new World(config);
     }
 
+    close = () => {
+        this.server.close(() => {
+            process.exit(0);
+        });
+    }
+
     listen = async (port) => {
         console.log('creating static server');
-        const server = this.staticServer.createServer();
+        this.server = this.staticServer.createServer();
         console.log('attaching socket server');
-        this.wsServer.attachToServer(server);
+        this.wsServer.attachToServer(this.server);
         console.log('initialize the mud!');
         this.world.initialize(this.wsServer);
-        return server.listen(port, () => {
+        return this.server.listen(port, () => {
             console.log(`server started on ${port}`);
-            this.wsServer.attachToServer(server);
+            this.wsServer.attachToServer(this.server);
         });
     }
 }

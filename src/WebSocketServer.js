@@ -8,6 +8,14 @@ const { MudError } = require('./errors');
 
 const PLAYER_PATH = './players';
 
+const AuthFlow = {
+  None: { id: 0, value: 0, message: 'Fare thee well!', connected: false },
+  Connected: { id: 1, value: 1, message: 'Enter character name:', connected: true },
+  CharacterCreation: { id: 2, value: 2, message: 'Select Race:', connected: true },
+  Login: { id: 3, value: 3, message: 'Enter password:', connected: true },
+  InGame: { id: 4, value: 4, message: 'Welcome', connected: true },
+};
+
 class WebSocketServer {
     constructor() {
         this.wss = null;

@@ -21,7 +21,7 @@ mud.listen(PORT).then(() => console.log('mud started'));
 process.on('SIGINT', () => {
   console.log('Shutting down server...');
   // Here you might add cleanup logic like saving game state, closing connections, etc.
-  server.close(() => {
+  mud.close(() => {
     process.exit(0);
   });
 });
