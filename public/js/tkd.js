@@ -13,9 +13,9 @@ window.onload = function() {
         if (event.key === 'Enter') {
             event.preventDefault();
             const ele = document.getElementById('cmd');
-            const { value } = ele;
-            send(value);
-            displayPrompt(value);
+            const { value: prompt } = ele;
+            send(prompt);
+            displayPrompt({ prompt });
             ele.select();
         }
     });
@@ -42,7 +42,7 @@ window.onload = function() {
         document.getElementById('terminal').appendChild(div);
     };
 
-    const displayPrompt = (prompt, placeholder) => {
+    const displayPrompt = ({ prompt, placeholder }) => {
         appendMessage(prompt);
         const ele = document.getElementById('cmd');
         if (placeholder) {
