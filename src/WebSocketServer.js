@@ -10,9 +10,9 @@ const PLAYER_PATH = './players';
 
 const AuthFlow = {
     None: { id: 0, value: 0, connected: false, getPrompt: () => 'Fare thee well!' },
-    Connected: { id: 1, value: 1, connected: true, getPrompt: () => 'Enter character name:' },
-    CharacterCreation: { id: 2, value: 2, connected: true, getPrompt: (charName) => `Welcome ${charName}, select race:` },
-    Login: { id: 3, value: 3, connected: true, getPrompt: () => 'Enter password:' },
+    Connected: { id: 1, value: 1, connected: true, getPrompt: () => 'Enter Character Name:' },
+    CharacterCreation: { id: 2, value: 2, connected: true, getPrompt: (charName) => `Welcome ${charName}, Select Race:` },
+    Login: { id: 3, value: 3, connected: true, getPrompt: () => 'Enter Password:' },
     InGame: { id: 4, value: 4, connected: true, getPrompt: () => '' },
 };
 
