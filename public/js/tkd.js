@@ -1,15 +1,20 @@
 window.onload = function() {
     let socket;
 
+    const send = (message) => {
+        if (socket) {
+            socket.send(message);
+        } else {
+            alert('WebSocket connection has not been established or has closed.');
+        }
+    };
+
     document.getElementById('cmd').addEventListener('keyup', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
-            const message = document.getElementById('cmd').value;
-            if (socket) {
-                socket.send(message);
-            } else {
-                alert('WebSocket connection has not been established or has closed.');
-            }
+            const ele = document.getElementById('cmd');
+            send(ele.value);
+            ele.select();
         }
     });
 
@@ -22,34 +27,35 @@ window.onload = function() {
         return { message: null };
     };
 
+    const appendMessage = (message) => {
+        const div = document.createElement('div');
+        div.textContent = message;
+        document.getElementById('terminal').appendChild(div);
+    };
+
+    const appendError = (message) => {
+        const div = document.createElement('div');
+        div.className = 'error';
+        div.textContent = message;
+        document.getElementById('terminal').appendChild(div);
+    };
+
+    const displayPrompt = (prompt) => {
+
+    }
+
     // Connect to the WebSocket server
     socket = new WebSocket('ws://localhost:3001/');
 
     // When the socket connection is open
-    socket.onopen = function(event) {
-        const div = document.createElement('div');
-        div.textContent = parseEvent(event).message;
-        document.getElementById('terminal').appendChild(div);
-    };
+    socket.onopen = (event) => appendMessage(parseEvent(event).message);
 
     // When a message is received from the server
-    socket.onmessage = function(event) {
-        const div = document.createElement('div');
-        div.textContent = parseEvent(event).message;
-        document.getElementById('terminal').appendChild(div);
-    };
+    socket.onmessage = (event) => appendMessage(parseEvent(event).message);
 
     // When an error occurs
-    socket.onerror = function(error) {
-        const div = document.createElement('div');
-        div.textContent =  parseEvent(event).message;
-        document.getElementById('terminal').appendChild(div);
-    };
+    socket.onerror = (event) => appendError(parseEvent(event).message);
 
     // When the socket connection is closed
-    socket.onclose = function(event) {
-        const div = document.createElement('div');
-        div.textContent =  parseEvent(event).message;
-        document.getElementById('terminal').appendChild(div);
-    };
+    socket.onclose = (event) => appendMessage(parseEvent(event).message);
 };
