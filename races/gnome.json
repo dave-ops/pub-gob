@@ -1,0 +1,15 @@
+{
+	"name": "Gnome",
+	"baseCon": 2,
+	"baseStr": -2,
+	"baseInt": 0,
+	"baseDex": 0,
+	"baseWis": 0,
+	"baseLck": 0,
+	"baseChr": 0,
+	"playable": true,
+	"affects": [],
+	"favoredClasses": [
+		"bard"
+	]
+}

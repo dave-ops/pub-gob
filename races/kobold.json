@@ -1,0 +1,23 @@
+{
+	"name": "Kobold",
+	"hp": -4,
+	"baseDex": 1,
+	"playable": false,
+	"attackType": "claw",
+	"size_id": 1,
+	"fist": {
+		"name": "fighting unarmed",
+		"displayName": "fist",
+		"level": 1,
+		"diceNum": 1,
+		"diceSides": 2,
+		"itemType": "weapon",
+		"attackType": "punch",
+		"weaponType": "unarmed",
+		"material": "flesh",
+		"modifiers": {},
+		"diceMod": 0,
+		"slot": "hands",
+		"short": "your fist"
+	}
+}

@@ -1,0 +1,28 @@
+{
+	"name": "Undead",
+	"playable": false,
+	"size_id": 2,
+	"hitroll": 0,
+	"meleeRes": 0,
+	"handsNoun": "claw",
+	"damroll": 0,
+	"hp": 20,
+	"baseStr": 0,
+	"baseWis": 0,
+	"baseInt": 0,
+	"fist" : {
+		"name": "Fighting unarmed!",
+		"displayName": "claws",
+		"level": 1,
+		"diceNum": 3,
+		"diceSides": 4,
+		"itemType": "weapon",
+		"attackType": "claw",
+		"weaponType": "unarmed",
+		"material": "flesh",
+		"modifiers": {},
+		"diceMod": -5,
+		"slot": "hands",
+		"short": "your claws"
+	}
+}

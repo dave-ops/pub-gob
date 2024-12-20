@@ -1,0 +1,32 @@
+{
+	"name": "Halfling",
+	"code": "HAL",
+	"baseStr": -2,
+	"baseDex": 2,
+	"baseInt": 0,
+	"baseWis": 0,
+	"baseLck": 0,
+	"baseCon": 2,
+	"baseChr": 0,
+	"mv": 20,
+	"playable": true,
+	"size_id": 3,
+	"favoredClass": [
+		"rogue"
+	],
+	"fist": {
+		"name": "unarmed attack",
+		"displayName": "fist",
+		"level": 1,
+		"diceNum": 1,
+		"diceSides": 2,
+		"itemType": "weapon",
+		"attackType": "punch",
+		"weaponType": "unarmed",
+		"material": "flesh",
+		"modifiers": {},
+		"diceMod": 0,
+		"slot": "hands",
+		"short": "your fist"
+	}
+}

@@ -1,0 +1,29 @@
+{
+	"name": "Dwarf",
+	"baseStr": 0,
+	"baseInt": 0,
+	"baseDex": 0,
+	"baseWis": 0,
+	"baseLck": 0,
+	"baseCon": 2,
+	"baseChr": -2,
+	"hp": 8,
+	"mv": -20,
+	"ac": 1,
+	"meleeRes": 2,
+	"playable": true,
+	"size_id": 3, 
+	"affects": [],
+	"favoredClasses": [
+		"fighter"
+	],
+	"svp": -2,
+	"svs": -2,
+	"attack_role": [
+		{ "monster_type": "orc", "ar": 1 },
+		{ "monster_type": "goblinoid", "ar": 1 }
+	],
+	"dodge_bonus": [
+		{ "monster_type": "giant", "ac": -4 }
+	]
+}

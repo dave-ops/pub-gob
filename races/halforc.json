@@ -1,0 +1,17 @@
+{
+	"name": "Half-Orc",
+	"code": "HOR",
+	"hp": -5,
+	"baseStr": 2,
+	"baseInt": -2,
+	"baseCon": -2,
+	"baseChr": -2,
+	"baseDex": 0,
+	"baseWis": 0,
+	"baseLck": 0,
+	"playable": true,
+	"affects": [],
+	"favoredClasses": [
+		"barbarian"
+	]
+}

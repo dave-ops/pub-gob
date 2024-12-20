@@ -1,0 +1,13 @@
+{
+	"name": "Half-Elf",
+	"code": "HEL",
+	"baseLck": 2,
+	"baseStr": 0,
+	"baseInt": 0,
+	"baseDex": 0,
+	"baseWis": 0,
+	"baseCon": 2,
+	"baseChr": 2,
+	"playable": true,
+	"affects": []
+}

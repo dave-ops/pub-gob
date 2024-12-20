@@ -1,0 +1,28 @@
+{
+	"name": "Human",
+	"baseStr": 0,
+	"baseInt": 0,
+	"baseDex": 0,
+	"baseWis": 0,
+	"baseLck": 0,
+	"baseCon": 0,
+	"baseChr": 0,
+	"playable": true,
+	"trains": 0,
+	"size_id": 5,
+	"fist": {
+		"name": "unarmed attack",
+		"displayName": "fist",
+		"level": 1,
+		"diceNum": 1,
+		"diceSides": 3,
+		"itemType": "weapon",
+		"attackType": "punch",
+		"weaponType": "unarmed",
+		"material": "flesh",
+		"modifiers": {},
+		"diceMod": 0,
+		"slot": "hands",
+		"short": "your fist"
+	}
+}

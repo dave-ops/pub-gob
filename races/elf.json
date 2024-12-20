@@ -1,0 +1,16 @@
+{
+	"name": "Elf",
+	"hp": -5,
+	"baseDex": 2,
+	"baseCon": -2,
+	"baseStr": 0,
+	"baseInt": 0,
+	"baseWis": 0,
+	"baseLck": 0,
+	"baseChr": 0,
+	"playable": true,
+	"affects": [],
+	"favoredClasses": [
+		"wizard"
+	]
+}
