@@ -3,14 +3,15 @@
 'use strict';
 
 class Message {
-    constructor({ data = {} }) {
-        this.data = data;
+    constructor(message) {
+        this.m = message;
     }
+
+    static create = (message) => new Message(message);
 
     toJson = () => JSON.parse(this);
 
-    static parse = (json) => Object.assign(new Message({ data: json }), json);
-
+    static parse = (json) => new Message(json.m);
 }
 
 module.exports = Message

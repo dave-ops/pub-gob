@@ -175,7 +175,7 @@ class WebSocketServer {
       // Here you would handle the login process if necessary
       // For simplicity, let's assume login isn't required for now and transition directly to in-game
       this.auth_state = AuthFlow.InGame;
-      ws.send(JSON.stringify({ type: 'game', message: 'Welcome back!' }));
+      ws.send(Message.create(message).toJson());
     }
 
     handleClose(ws) {
