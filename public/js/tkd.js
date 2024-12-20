@@ -64,4 +64,8 @@ window.onload = function() {
 
     // When the socket connection is closed
     socket.onclose = (event) => appendMessage(parseEvent(event).message);
+
+    // set focus
+    document.getElementById('cmd').focus();
+
 };
