@@ -9,9 +9,9 @@ class MUD {
         // Constructor logic here
         this.server = server;
         this.config = config;
-        this.staticServer = new StaticWebServer();
-        this.wsServer = new WebSocketServer();
         this.world = new World(config);
+        this.staticServer = new StaticWebServer();
+        this.wsServer = new WebSocketServer(this.world);
     }
 
     close = () => {
@@ -29,7 +29,7 @@ class MUD {
         console.log('creating static server');
         this.server = this.staticServer.createServer();
         console.log('attaching socket server');
-        this.wsServer.attachToServer(this.server);
+        this.wsServer.attachToServer(this.server, this.world);
         console.log('initialize the mud!');
         this.world.initialize(this.wsServer);
         return this.server.listen(port, () => {

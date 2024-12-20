@@ -132,6 +132,16 @@ class Character {
         // Implement specific actions here
         console.log(`Character ${this.name} performs ${action}`);
     }
+
+    create = (id, name, race, className, str, int, wis, dex, con, chr, lck) => {
+        const validate = new ValidationError();
+        validate.validateRequiredObjectProperties({
+            id: '', name: '', race: '', className: '', str: 0, int: 0, wis: 0, dex: 0, con: 0, chr: 0, lck: 0
+        }, {id, name, race, className, str, int, wis, dex, con, chr, lck})
+        return new Character({
+            id, name, race, className, str, int, wis, dex, con, chr, lck
+        });
+    }
 }
 
 module.exports = Character;

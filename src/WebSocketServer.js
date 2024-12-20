@@ -17,7 +17,8 @@ const AuthFlow = {
 };
 
 class WebSocketServer {
-    constructor() {
+    constructor(world) {
+        this.world = world;
         this.wss = null;
         this.auth_state = AuthFlow.None;
     }
@@ -140,17 +141,16 @@ class WebSocketServer {
           }
           break;
         default:
-          ws.send('Invalid state.');
+          ws.send('invalid state.');
       }
     }
   
     handleConnectedState = async (ws, cmd_msg) => {
       const characterExists = await this.checkCharacterExists(cmd_msg);
       if (!characterExists) {
-        console.log('Character does not exist, proceed with character creation or login prompt.');
-        // Here, decide whether to create a new character or prompt for login
-        // For simplicity, let's just send a message to the client to create a character or login
-        ws.send(JSON.stringify({ type: 'info', message: 'Character does not exist. Please choose to create a new character or login with an existing one.' }));
+        console.log('character doesn\'t exist, proceed with character creation.');
+        this.world.createNewPlayer();
+        ws.send(JSON.stringify({ type: 'info', message: 'Select Race: ' }));
       } else {
         // If the character exists, proceed with login or directly into the game if no password is required
         // Assuming you might have a method to handle login or transition to in-game state

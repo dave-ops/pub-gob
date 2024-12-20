@@ -1,8 +1,14 @@
+'use strict'
+
+const { v4: uuidv4 } = require('uuid');
+const { Character } = require('./models');
+
 class World {
     constructor(config) {
       this.config = config;
       this.players = {};
       this.rooms = {};
+      this.character = new Character(this);
       // Initialize other game elements here
     }
   
@@ -31,11 +37,8 @@ class World {
   
     createNewPlayer(data) {
       // Create player object with initial properties
-      return {
-        id: Date.now().toString(),
-        name: data.msg,
-        // other player properties
-      };
+      console.log('world.createnewplayer');
+      return this.character;
     }
   
     executeCommand(ws, data) {
@@ -55,6 +58,8 @@ class World {
     }
   
     // Additional methods for game logic, command validation, etc.
+    createRefId = () => uuidv4();
+      
   }
   
   module.exports = World;
