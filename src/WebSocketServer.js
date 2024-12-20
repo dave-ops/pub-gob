@@ -44,7 +44,7 @@ class WebSocketServer {
 
         if (!this.auth_state.connected) {
             this.auth_state = AuthFlow.Connected;
-            ws.send(JSON.stringify({ type: 'info', message: 'Enter character name:' }));            
+            ws.send(JSON.stringify({ type: 'info', message: 'Enter Character Name:' }));            
         }
 
         ws.on('message', async (message) => {
