@@ -13,26 +13,43 @@ window.onload = function() {
         }
     });
 
+    const parseEvent = (evt) => {
+        const { data } = evt;
+        if (data) {
+            console.log(data);
+            return JSON.parse(data);
+        }
+        return { message: null };
+    };
+
     // Connect to the WebSocket server
     socket = new WebSocket('ws://localhost:3001/');
 
     // When the socket connection is open
     socket.onopen = function(event) {
-        document.getElementById('terminal').append('<div>connection established.</div>');
+        const div = document.createElement('div');
+        div.textContent = parseEvent(event).message;
+        document.getElementById('terminal').appendChild(div);
     };
 
     // When a message is received from the server
     socket.onmessage = function(event) {
-        document.getElementById('terminal').append(`<div>server: ${event.data}</div>`);
+        const div = document.createElement('div');
+        div.textContent = parseEvent(event).message;
+        document.getElementById('terminal').appendChild(div);
     };
 
     // When an error occurs
     socket.onerror = function(error) {
-        document.getElementById('terminal').append(`<div>error: ${error.message}</div>`);
+        const div = document.createElement('div');
+        div.textContent =  parseEvent(event).message;
+        document.getElementById('terminal').appendChild(div);
     };
 
     // When the socket connection is closed
     socket.onclose = function(event) {
-        document.getElementById('terminal').append('<div>connection closed.</div>');
+        const div = document.createElement('div');
+        div.textContent =  parseEvent(event).message;
+        document.getElementById('terminal').appendChild(div);
     };
 };
