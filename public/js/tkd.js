@@ -1,3 +1,5 @@
+const CLASS_PROMPT = 'prompt';
+
 window.onload = function() {
     let socket;
 
@@ -29,9 +31,14 @@ window.onload = function() {
         return { message: null };
     };
 
-    const appendMessage = (message) => {
+    const appendMessage = (message, className) => {
         const div = document.createElement('div');
         div.textContent = message;
+
+        if (className) {
+            div.className = className;
+        }
+        console.log({div, a: "m" })
         document.getElementById('terminal').appendChild(div);
     };
 
@@ -39,11 +46,13 @@ window.onload = function() {
         const div = document.createElement('div');
         div.className = 'error';
         div.textContent = message;
+        console.log({div, a: "e" })
         document.getElementById('terminal').appendChild(div);
     };
 
     const displayPrompt = ({ prompt, placeholder }) => {
-        appendMessage(prompt);
+        console.log({t: prompt, a: "p" })
+        appendMessage(prompt, CLASS_PROMPT);
         const ele = document.getElementById('cmd');
         if (placeholder) {
             ele.placeholder = placeholder;

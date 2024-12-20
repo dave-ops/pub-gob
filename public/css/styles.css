@@ -61,6 +61,10 @@ body {
     margin-bottom: 5px;
 }
 
+#terminal .prompt {
+    color: darkolivegreen;
+}
+
 #terminal .message-text {
     display: flex;
     width: 100%;
