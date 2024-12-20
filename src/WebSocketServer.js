@@ -37,8 +37,11 @@ class WebSocketServer {
         this.wss.on('connection', this.handleConnection.bind(this));
     }
 
-    handleConnection(ws) {
+    handleConnection(ws, req) {
         console.log('incoming connection');
+        const ip = req.socket.remoteAddress;
+        console.log('New connection from', ip);
+
         if (!this.auth_state.connected) {
             this.auth_state = AuthFlow.Connected;
         }
