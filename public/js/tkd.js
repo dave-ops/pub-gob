@@ -40,8 +40,12 @@ window.onload = function() {
         document.getElementById('terminal').appendChild(div);
     };
 
-    const displayPrompt = (prompt) => {
-
+    const displayPrompt = (prompt, placeholder) => {
+        appendMessage(prompt);
+        const ele = document.getElementById('cmd');
+        if (placeholder) {
+            ele.placeholder = placeholder;
+        }
     }
 
     // Connect to the WebSocket server
