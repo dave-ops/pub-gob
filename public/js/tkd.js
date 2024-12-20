@@ -13,7 +13,9 @@ window.onload = function() {
         if (event.key === 'Enter') {
             event.preventDefault();
             const ele = document.getElementById('cmd');
-            send(ele.value);
+            const { value } = ele;
+            send(value);
+            displayPrompt(value);
             ele.select();
         }
     });
