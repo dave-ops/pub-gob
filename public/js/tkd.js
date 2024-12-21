@@ -109,8 +109,7 @@ window.onload = function() {
         }
 
         const { type, html, message } = toJson(data);
-        const evt_req = html ? html : parseJsonToHtmlString(message);
-        const dom = parseHtmlString(evt_req);
+        const dom = html ? parseHtmlString(html) : parseJsonToHtmlString(message);
         return appendMessage(dom);
     }
 

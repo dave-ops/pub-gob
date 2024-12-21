@@ -50,6 +50,6 @@ const races = {
     ]
 };
 
-races.render = () => `<div>Races:<div><div><ol>${races.races.map((r) => `<li>${r.name}</li>`)}</ol></div>`;
+races.render = () => `<div>Races:<div><div><ol>${races.races.map((r) => `<li>${r.name}</li>`)}</ol></div>`.replaceAll(',', '');
 
 module.exports = races;
