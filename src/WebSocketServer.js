@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const WebSocket = require('ws');
 const Message = require('./models/Message.js');
+const Races = require('../help/races.js'); 
 const { MudError } = require('./errors');
 
 const PLAYER_PATH = './players';
@@ -154,7 +155,8 @@ class WebSocketServer {
         if (!characterExists) {
             console.log("character doesn't exist, proceed with character creation.");
             this.world.createNewPlayer();
-            ws.send(JSON.stringify({ type: 'info', message: 'Select Race: ' }));
+            const html = `${Races.render()}<div>Select Race:</div>`;
+            ws.send(JSON.stringify({ type: 'html', html }));
         } else {
             // If the character exists, proceed with login or directly into the game if no password is required
             // Assuming you might have a method to handle login or transition to in-game state

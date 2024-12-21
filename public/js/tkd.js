@@ -22,57 +22,68 @@ window.onload = function() {
         }
     });
 
+    const appendMessage = (dom) => {
+        if (!dom) {
+            return;
+        }
+        document.getElementById('terminal').appendChild(dom);
+    }
+
     const parseEvent = (evt) => {
         const { data } = evt;
-        if (data) {
-            console.log(data);
-            return JSON.parse(data);
+        if (!data) {
+            return null;
         }
-        return { message: null };
+
+        const { message, html } = data;
+
+        if (html) {
+            return parseHtmlString(html)
+        }
+
+        if (message) {
+            return parseHtmlString(parseJsonToHtmlString(message));
+        }
+
+        return null;
     };
 
-    const appendMessage = (message, className) => {
+    const parseHtmlString = (html) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const node = doc.body.firstChild;
+        return node;
+    };
+
+    const parseJsonToHtmlString = (message, className) => {
         const div = document.createElement('div');
         div.textContent = message;
-
         if (className) {
             div.className = className;
         }
-        console.log({div, a: "m" })
-        document.getElementById('terminal').appendChild(div);
-    };
-
-    const appendError = (message) => {
-        const div = document.createElement('div');
-        div.className = 'error';
-        div.textContent = message;
-        console.log({div, a: "e" })
-        document.getElementById('terminal').appendChild(div);
+        return div;
     };
 
     const displayPrompt = ({ prompt, placeholder }) => {
-        console.log({t: prompt, a: "p" })
-        appendMessage(prompt, CLASS_PROMPT);
-        const ele = document.getElementById('cmd');
-        if (placeholder) {
-            ele.placeholder = placeholder;
-        }
+        const html = `<div class="${CLASS_PROMPT}">${prompt}</div>`;
+        const dom = parseHtmlString(html);
+        appendMessage(dom);
     }
 
     // Connect to the WebSocket server
     socket = new WebSocket('ws://localhost:3001/');
 
     // When the socket connection is open
-    socket.onopen = (event) => appendMessage(parseEvent(event).message);
+    socket.onopen = (event) => appendMessage(parseEvent(event));
 
     // When a message is received from the server
-    socket.onmessage = (event) => appendMessage(parseEvent(event).message);
+    socket.onmessage = (event) => appendMessage(parseEvent(event));
 
     // When an error occurs
-    socket.onerror = (event) => appendError(parseEvent(event).message);
+    socket.onerror = (event) => appendError(parseEvent(event));
 
     // When the socket connection is closed
-    socket.onclose = (event) => appendMessage(parseEvent(event).message);
+    socket.onclose = (event) => appendMessage(parseEvent(event));
 
     // set focus
     document.getElementById('cmd').focus();
